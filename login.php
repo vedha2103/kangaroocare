@@ -184,7 +184,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	
 	<div class="kangaroo-care">  Kangaroo Care Confinement Centre </div>
                   <div class="logo-container">
-	<img class="logo" src="kclogo.png" alt="Your Logo"></img>
+	<img class="logo" src="images/kclogo.png" alt="Your Logo"></img>
 	</div>
 
         <?php 

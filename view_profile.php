@@ -140,7 +140,7 @@ header h1 {
 
     <section class="lady-details">
         <h2><?php echo $lady['name']; ?></h2>
-        <img src="image/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
+        <img src="images/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
         <p><strong>Experience:</strong> <?php echo $lady['experience']; ?> years</p>
         <p><strong>Specialty:</strong> <?php echo $lady['specialty']; ?></p>
         <p><strong>Package Type:</strong> <?php echo $lady['package_type']; ?></p>

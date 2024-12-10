@@ -177,7 +177,7 @@ header h1 {
             <div class="ladies-list">
                 <?php while ($lady = $result_basic->fetch_assoc()) { ?>
                     <div class="lady-card">
-                        <img src="image/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
+                        <img src="images/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
                         <div class="lady-info">
                             <h3><?php echo $lady['name']; ?></h3>
                             <p><strong>Experience:</strong> <?php echo $lady['experience']; ?> years</p>
@@ -195,7 +195,7 @@ header h1 {
             <div class="ladies-list">
                 <?php while ($lady = $result_premium->fetch_assoc()) { ?>
                     <div class="lady-card">
-                        <img src="image/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
+                        <img src="images/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
                         <div class="lady-info">
                             <h3><?php echo $lady['name']; ?></h3>
                             <p><strong>Experience:</strong> <?php echo $lady['experience']; ?> years</p>

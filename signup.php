@@ -186,7 +186,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div class="left-side">
             <!-- Left-side content goes here -->
             <h2>Welcome!!!</h2>
-            <img src="signup.jpg" alt="SignUp"></img>
+            <img src="images/signup.jpg" alt="SignUp"></img>
         </div>
 
         <div class="right-side">
