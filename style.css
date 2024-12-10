@@ -1,0 +1,214 @@
+/* General reset for all elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: linear-gradient(120deg, #f8f9fa, #eaecef);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header styling */
+header {
+    background-color: #6c757d;
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+/* Main container */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Package section */
+.package-section h2 {
+    font-size: 2rem;
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 2rem;
+    margin-top: 2rem; 
+}
+
+/* Ladies list */
+.ladies-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Lady card styling */
+.lady-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.lady-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Lady photo */
+.lady-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Lady info */
+.lady-info {
+    padding: 1rem;
+    text-align: center;
+}
+
+.lady-info h3 {
+    font-size: 1.5rem;
+    color: #343a40;
+    margin-bottom: 0.5rem;
+}
+
+.lady-info p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+/* Button styling */
+.lady-info button {
+    background-color: #1a4f88;
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.lady-info button:hover {
+    background-color: #7da6b1;
+    transform: scale(1.05);
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .package-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .lady-info h3 {
+        font-size: 1.2rem;
+    }
+
+    .lady-info button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+
+
+/* Profile page styling */
+.lady-details {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.lady-details h2 {
+    font-size: 2.5rem;
+    color: #343a40;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.lady-details img {
+    display: block;
+    margin: 0 auto 1.5rem;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.lady-details p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-family: Georgia, 'Times New Roman', Times, serif
+}
+
+.lady-details p strong {
+    color: #6c757d;
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.lady-details a {
+    display: inline-block;
+    margin: 1rem 0;
+    background-color: #1a4f88;;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.lady-details a:hover {
+    background-color: #f31111;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .lady-details {
+        padding: 1.5rem;
+    }
+
+    .lady-details h2 {
+        font-size: 2rem;
+    }
+
+    .lady-photo {
+        height: 150px;
+    }
+
+    a {
+        padding: 0.8rem 1.5rem;
+    }
+}
