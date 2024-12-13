@@ -27,6 +27,7 @@ if ($result->num_rows > 0) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     // Handle profile update
     $name = $_POST['name'];
+    $password = $_POST['password'];
     $package_type = $_POST['package_type'];
     $package_details = $_POST['package_details'];
     $experience = $_POST['experience'];
@@ -45,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         }
     }
 
-    $update_sql = "UPDATE ladies SET name = '$name', package_type = '$package_type', 
+    $update_sql = "UPDATE ladies SET name = '$name', password = '$password', package_type = '$package_type', 
     package_details = '$package_details', 
     experience = '$experience', 
     age = '$age', 
@@ -201,6 +202,9 @@ $conn->close();
             <form action="" method="POST" enctype="multipart/form-data" class="profile-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($ladies['name']); ?>" required>
+
+                <label for="password">Password:</label>
+                <input type="text" id="password" name="password" value="<?php echo htmlspecialchars($ladies['password']); ?>" required>
 
                 <label for="package_type">Package Type:</label>
                 <select id="package_type" name="package_type" required>

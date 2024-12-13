@@ -144,8 +144,11 @@ $conn->close();
         <div class="content">
             <h2>Profile Information</h2>
             <div class="profile-grid">
-                <label for="name">Name:</label>
-                <p><?php echo htmlspecialchars($ladies['name']); ?></p>
+            <label for="name">Name:</label>
+            <p><?php echo htmlspecialchars($ladies['name']); ?></p>
+
+            <label for="password">Password:</label>
+                <p><?php echo htmlspecialchars($ladies['password']); ?></p>
 
                 <label for="package_type">Package Type:</label>
                 <p><?php echo htmlspecialchars($ladies['package_type']); ?></p>
