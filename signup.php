@@ -1,224 +1,219 @@
 <?php
-// Include config file
-require_once "config.php";
- 
+require('config.php');
+
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
- 
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+$username = $email = $password = $confirm_password = $role = "";
+$username_err = $email_err = $password_err = $confirm_password_err = "";
+
+// Process form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
     // Validate username
-    if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter a username.";
-    } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
-        $username_err = "Username can only contain letters, numbers, and underscores.";
-    } else{
-        // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
-        
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-            
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-            
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-                
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken.";
-                } else{
-                    $username = trim($_POST["username"]);
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            mysqli_stmt_close($stmt);
+    if (empty(trim($_POST['username']))) {
+        $username_err = "**&nbsp;&nbsp;Please enter a username.";
+    } else {
+        $username = $conn->real_escape_string(trim($_POST['username']));
+        // Check if username already exists
+        $sql = "SELECT id FROM users WHERE username = '$username'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $username_err = "**&nbsp;&nbsp;This username is already taken.";
         }
     }
-    
+
+    // Validate email
+    if (empty(trim($_POST['email']))) {
+        $email_err = "**&nbsp;&nbsp;Please enter an email.";
+    } else {
+        $email = $conn->real_escape_string(trim($_POST['email']));
+        // Check if email already exists
+        $sql = "SELECT id FROM users WHERE email = '$email'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $email_err = "**&nbsp;&nbsp;This email is already registered.";
+        }
+    }
+
     // Validate password
-    if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter a password.";     
-    } elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
-    } else{
-        $password = trim($_POST["password"]);
+    if (empty(trim($_POST['password']))) {
+        $password_err = "**&nbsp;&nbsp;Please enter a password.";
+    } elseif (strlen(trim($_POST['password'])) < 6) {
+        $password_err = "**&nbsp;&nbsp;Password must be at least 6 characters.";
+    } else {
+        $password = trim($_POST['password']);
     }
-    
-    // Validate confirm password
-    if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confirm password.";     
-    } else{
-        $confirm_password = trim($_POST["confirm_password"]);
-        if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password did not match.";
-        }
-    }
-    
-    // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-        
-        // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-         
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-            
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Redirect to login page
-                header("location: login.php");
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
 
-            // Close statement
-            mysqli_stmt_close($stmt);
+    // Validate confirm password
+    if (empty(trim($_POST['confirm_password']))) {
+        $confirm_password_err = "**&nbsp;&nbsp;Please confirm your password.";
+    } else {
+        $confirm_password = trim($_POST['confirm_password']);
+        if ($password !== $confirm_password) {
+            $confirm_password_err = "**&nbsp;&nbsp;Passwords do not match.";
         }
     }
-    
-    // Close connection
-    mysqli_close($link);
+
+    // Check for errors before inserting into database
+    if (empty($username_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)) {
+        $role = $conn->real_escape_string($_POST['role']); // Store user's role
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+
+        // Insert into database
+        $sql = "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$hashed_password', '$role')";
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>
+            alert('Register Successfully.');
+            window.location.href = 'login.php';
+            </script>";
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
 }
 ?>
- 
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/all.css">
-    <title>Register Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(to right, #000000, #3533CD);
-      color: #fff;
-    }
+    <title>Register Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-    .container {
-      display: flex;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #000000, #3533CD);
+        }
+        .container {
+            display: flex;
+            width: 1200px;
+            height: 650px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        .form-section {
+            flex: 0.8;
+            padding: 30px;
+        }
 
-    .h2 {
-      text-align: center;
-    }
+        .image-section {
+            flex: 1;
+            background: url('images/sign-up.jpg')
+        }
 
-    .left-side {
-      flex: 1;
-      box-sizing: border-box;
-      padding: 20px;
-      background-color: #163492;
-      color: white;
-      text-align: center; /* Center the content inside the left side */
-    }
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-    .left-side img {
-      max-width: 100%; /* Make sure the image doesn't exceed the container width */
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
 
-    .right-side {
-      flex: 1;
-      box-sizing: border-box;
-      padding: 20px;
-      background-color: #526bb9;
-      color: white;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
 
-    .signup-form {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      background-color: #bee1ff;
-      color: #000000;
-    }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    .form-control {
-        width: 180px;
-        padding: 3px;
-        margin: 10px 0;
-    }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
 
-    .invalid-feedback {
-        color: red;
-        font-size: 12px;
-    }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-    .form-button {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        padding: 10px;
-    }
-  </style>
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #0000EE;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .invalid-feedback {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
 </head>
-
 <body>
     <div class="container">
-        <div class="left-side">
-            <!-- Left-side content goes here -->
-            <h2>Welcome!!!</h2>
-            <img src="images/signup.jpg" alt="SignUp"></img>
-        </div>
+        <div class="form-section">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo">
+            </div>
+            <h1>Register Form</h1>
 
-        <div class="right-side">
-        <!-- Right-side content goes here -->
-         <div class="signup-form">
-        <!-- Login form goes here -->
-
-
-        <h2 class="h2">Sign Up</h2><br>
-        <p>Please fill this form to create an account.</p><br>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group">
-                <label>Username: </label>
-                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <input type="text" id="username" name="username" placeholder="Username" value="<?php echo htmlspecialchars($username); ?>">
                 <span class="invalid-feedback"><?php echo $username_err; ?></span>
-            </div>    
-            <div class="form-group">
-                <label>Password: </label>
-                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+
+                <input type="email" id="email" name="email"placeholder="Email"  value="<?php echo htmlspecialchars($email); ?>">
+                <span class="invalid-feedback"><?php echo $email_err; ?></span>
+
+                <input type="password" id="password" name="password" placeholder="Password">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <label>Confirm Password: </label>
-                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+
+                <select id="role" name="role">
+                    <option value="admin" <?php echo ($role === "admin") ? "selected" : ""; ?>>Admin</option>
+                    <option value="staff" <?php echo ($role === "staff") ? "selected" : ""; ?>>Staff</option>
+                    <option value="customer" <?php echo ($role === "customer") ? "selected" : ""; ?>>Customer</option>
+                </select>
+
+                <button type="submit" class="btn">Register</button>
+            </form>
+
+            <div class="footer">
+                Already have an account? <a href="#">Login</a>
             </div>
-            <div class="form-button">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <input type="submit" class="btn btn-secondary ml-2" value="Reset">
-            </div>
-            <p>Already have an account? <a href="login.php">Login here</a>.</p>
-        </form> 
         </div>
+        <div class="image-section"></div>
+    </div>
+
 </body>
 </html>
