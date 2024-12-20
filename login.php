@@ -1,225 +1,192 @@
 <?php
-// Initialize the session
+// Establish database connection
+require_once('config.php');
+
+// Start a new session or resume an existing session
 session_start();
- 
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: homepage.php");
-    exit;
-}
 
-if (isset($_SESSION["changepassword"]) && $_SESSION["changepassword"] === true) {
-    header("location: password.php");
-    exit;
-}
- 
-// Include config file
-require_once "config.php";
- 
-// Define variables and initialize with empty values
-$username = $password = "";
-$username_err = $password_err = $login_err = "";
- 
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
-    // Check if username is empty
-    if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter username.";
-    } else{
-        $username = trim($_POST["username"]);
-    }
-    
-    // Check if password is empty
-    if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter your password.";
-    } else{
-        $password = trim($_POST["password"]);
-    }
-    
-    // Validate credentials
-    if(empty($username_err) && empty($password_err)){
-        // Prepare a select statement
-        $sql = "SELECT id, username, password FROM users WHERE username = ?";
-        
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-            
-            // Set parameters
-            $param_username = $username;
-            
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Store result
-                mysqli_stmt_store_result($stmt);
-                
-                // Check if username exists, if yes then verify password
-                if(mysqli_stmt_num_rows($stmt) == 1){                    
-                    // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
-                    if(mysqli_stmt_fetch($stmt)){
-                        if(password_verify($password, $hashed_password)){
-                            // Password is correct, so start a new session
-                            session_start();
-                            
-                            // Store data in session variables
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                            
-                            
-                            // Redirect user to welcome page
-                            header("location: homepage.php");
-                        } else{
-                            // Password is not valid, display a generic error message
-                            $login_err = "Invalid username or password.";
-                        }
-                    }
-                } else{
-                    // Username doesn't exist, display a generic error message
-                    $login_err = "Invalid username or password.";
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
+// Check if the form was submitted via POST method
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Sanitize and retrieve form inputs (username and password)
+    $username = $conn->real_escape_string($_POST['username']);
+    $password = trim($_POST['password']);
+
+    // SQL query to search for the user in the database based on username
+    $sql = "SELECT * FROM users WHERE username='$username'";
+    $result = $conn->query($sql);
+
+    // Check if any user is found with the provided username
+    if ($result->num_rows > 0) {
+
+        $user = $result->fetch_assoc();
+
+        // Verify if the provided password matches the stored hashed password
+        if (password_verify($password, $user['password'])) {
+            // Store user information in session variables
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+
+            // Redirect user based on their role
+            if ($user['role'] === 'admin') {
+                header("Location: admin_dashboard.php"); // Redirect to admin dashboard
+            } elseif ($user['role'] === 'staff') {
+                header("Location: staff_dashboard.php"); // Redirect to staff dashboard
+            } else {
+                header("Location: customer_dashboard.php"); // Redirect to customer dashboard
             }
-
-            // Close statement
-            mysqli_stmt_close($stmt);
+            exit();
+        } else {
+            // If password is incorrect, show an alert and redirect back to login page
+            echo "<script>
+            alert('Invalid password.');
+            window.location.href = 'login.php';
+            </script>";
         }
+    } else {
+        // If no user is found with the provided username, show an alert and redirect back to login page
+        echo "<script>
+            alert('No user found with this username.');
+            window.location.href = 'login.php';
+            </script>";
     }
-    
-    // Close connection
-    mysqli_close($link);
 }
 ?>
- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
     <style>
-       body {
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: flex-start;
-            font-family: 'ITCBenguiat';
-            height: 100vh;
+            min-height: 100vh;
             background: linear-gradient(to right, #000000, #3533CD);
-            color: #fff;
+        }
+        .container {
+            display: flex;
+            width: 1200px;
+            height: 650px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        .form-section {
+            flex: 0.8;
+            padding: 30px;
         }
 
-       .logo-container {
-	display: flex;
-	align-items: center;
-	justify-content: center; /* To center horizontally */
-	height: 200px; /* Set the height to the full viewport height for vertical centering */
+        .image-section {
+            flex: 1;
+            background: url('images/log-in.jpg')
         }
 
-       .logo {
-                width: 600px;
-                height: 400px;
-        }
-
-        .kangaroo-care {
+        .logo {
             text-align: center;
-            font-size: 50px;
-            line-height: 1;
-            text-shadow: 0 0 5px rgba(202, 144, 73, 0.8), 0 0 10px rgba(202, 144, 73, 10.6), 0 0 15px rgba(202, 144, 73, 0.4);
-            background: linear-gradient(to right, #ca9049, #fff, #ca9049);
-            -webkit-background-clip: text;
-            color: transparent;
-            display: inline-block;
             margin-bottom: 10px;
         }
 
-        .wrapper {
+        .logo img {
+            width: 100px;
             height: auto;
-            width: 450px;
-            padding: 20px;
         }
 
-        .input-field {
-  width: 250px;
-  padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 20px;
-  text-align: center;
-}
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
 
-.input-field:focus {
-  outline: none;
-  border: 2px solid #5c9cc6;
-}
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
 
-.form-group {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-}
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
 
-.form-links {
-  margin-top: 10px;
-  align-items: center;
-    justify-content: center;
-    display: flex;
-}
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-.form-links a {
-  display: block;
-  margin: 5px 0;
-  color: #c2dfff;
-  text-decoration: none;
-}
+        .btn:hover {
+            background-color: #0056b3;
+        }
 
-</style>
-</head>
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #0000EE;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 <body>
-    <div class="wrapper">
-	
-	<div class="kangaroo-care">  Kangaroo Care Confinement Centre </div>
-                  <div class="logo-container">
-	<img class="logo" src="images/kclogo.png" alt="Your Logo"></img>
-	</div>
 
-        <?php 
-        if(!empty($login_err)){
-            echo '<div class="alert alert-danger">' . $login_err . '</div>';
-        }        
-        ?>
+<div class="container">
+    <!-- Section for the image or background -->
+    <div class="image-section"></div>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group">
-                
-                <input type="text" placeholder="USERNAME" name="username" class="input-field" required <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
-                <span class="invalid-feedback"><?php echo $username_err; ?></span>
-            </div>    
-            <div class="form-group">
-                
-                <input type="password" placeholder="PASSWORD" name="password" class="input-field" required <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
-                <span class="invalid-feedback"><?php echo $password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Login">
-            </div>
-            </form>
-            
-            <div class="form-links">
-            <!-- Forgot Password Button -->
-            <form action="password.php" method="get" style="display: inline;">
-                <input type="submit" class="btn btn-secondary" value="Forgot Password?">
-            </form>
+    <!-- Form section for login -->
+    <div class="form-section">
+        <!-- Logo section, with some top margin applied to the image -->
+        <div class="logo">
+            <img src="images/logo.png" style="margin-top: 50px;" alt="Logo">
+        </div>
 
-            <!-- Sign Up Button -->
-            <form action="signup.php" method="get" style="display: inline;">
-            <input type="submit" class="btn btn-secondary" value="Sign up now">
-            </form>
-            </div>
+        <!-- Heading for the login form -->
+        <h1>Login Form</h1>
+
+        <!-- Login form starts here -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <!-- Input field for the username -->
+            <input type="text" id="username" name="username" placeholder="Username" required>
+
+            <!-- Input field for the password -->
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <!-- Submit button to log the user in -->
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <!-- Footer section with links for password recovery and account registration -->
+        <div class="footer">
+            <a href="password.php">Forgot Password?</a><br><br>
+            Don't have an account? <a href="signup.php">Register</a>
+        </div>
     </div>
+</div>
+
 </body>
 </html>
