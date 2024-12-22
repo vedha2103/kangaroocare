@@ -1,6 +1,7 @@
 <?php
 // Include the database configuration
-require_once 'config.php';
+require_once 'config/db.php';
+include("config/auth.php");
 
 // Start the session
 session_start();

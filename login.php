@@ -1,6 +1,6 @@
 <?php
 // Establish database connection
-require_once('config.php');
+require_once('config/db.php');
 
 // Start a new session or resume an existing session
 session_start();
@@ -29,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect user based on their role
             if ($user['role'] === 'admin') {
-                header("Location: admin_dashboard.php"); // Redirect to admin dashboard
+                header("Location: homepage.php"); // Redirect to homepage
             } elseif ($user['role'] === 'staff') {
-                header("Location: staff_dashboard.php"); // Redirect to staff dashboard
+                header("Location: homepage.php"); // Redirect to homepage
             } else {
-                header("Location: customer_dashboard.php"); // Redirect to customer dashboard
+                header("Location: homepage.php"); // Redirect to homepage
             }
             exit();
         } else {

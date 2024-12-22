@@ -1,6 +1,6 @@
 <?php
 // Establish the database connection
-require_once('config.php');
+require_once('config/db.php');
 
 // Initialize variables for email, new password, confirm password, and error message
 $email = $new_password = $confirm_password = $error = "";
