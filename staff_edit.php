@@ -1,15 +1,7 @@
 <?php
 // Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "webdev";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once('config/db.php');
+include('config/auth.php');
 
 $ladies_id = 1; 
 // Fetch user's profile information
@@ -224,7 +216,7 @@ $conn->close();
                 <label for="photo_url">Upload Photo:</label>
                 <input type="file" id="photo_url" name="photo_url" accept="image/*">
                 <!-- Display existing photo if present -->
-                <img src="image/<?php echo htmlspecialchars($ladies['photo_url']); ?>" alt="Current Photo" width="100"><br><br>
+                <img src="images/<?php echo htmlspecialchars($ladies['photo_url']); ?>" alt="Current Photo" width="100"><br><br>
 
                 <label for="specialty">Specialty:</label>
                 <textarea id="specialty" name="specialty" rows="4" required><?php echo htmlspecialchars($ladies['specialty']); ?></textarea>

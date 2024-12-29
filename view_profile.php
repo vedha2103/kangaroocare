@@ -1,15 +1,7 @@
 <?php
 // Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "webdev";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'config/db.php';
+require_once 'config/auth.php'; 
 
 // Get the lady ID from URL
 $id = $_GET['id'];

@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kangaroocare";
+$dbname = "kangaroocare_db";
 
 // Create connection to the database
 $conn = mysqli_connect($servername, $username, $password, $dbname);

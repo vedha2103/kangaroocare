@@ -1,6 +1,6 @@
 <?php
 // Establish database connection
-require_once('config/db.php');
+require_once 'config/db.php';
 
 // Start a new session or resume an existing session
 session_start();
@@ -72,8 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(to right, #000000, #3533CD);
+            background: linear-gradient(to right, #000428, #004e92);
         }
+
         .container {
             display: flex;
             width: 1200px;

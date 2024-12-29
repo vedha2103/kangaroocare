@@ -1,6 +1,6 @@
 <?php
 // Establish database connection
-require('config/db.php');
+require_once 'config/db.php';
 
 // Initialize variables to store form inputs and error messages
 $username = $email = $password = $confirm_password = $role = $error = "";
