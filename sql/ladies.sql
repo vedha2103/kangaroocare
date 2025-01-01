@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 29, 2024 at 08:34 AM
--- Server version: 10.6.7-MariaDB
--- PHP Version: 8.2.12
+-- 主机： 127.0.0.1
+-- 生成日期： 2025-01-01 06:19:02
+-- 服务器版本： 10.4.32-MariaDB
+-- PHP 版本： 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,35 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `kangaroocare_db`
+-- 数据库： `kangaroocare_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `feedback`
---
-
-CREATE TABLE `feedback` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `feedback` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`id`, `username`, `feedback`, `created_at`) VALUES
-(3, 'khor', 'hello', '2024-12-29 07:30:57'),
-(4, 'khor', 'wow', '2024-12-29 07:31:03'),
-(5, 'khor', 'perfect', '2024-12-29 07:31:13');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ladies`
+-- 表的结构 `ladies`
 --
 
 CREATE TABLE `ladies` (
@@ -61,10 +39,10 @@ CREATE TABLE `ladies` (
   `bio` text DEFAULT NULL,
   `contact_info` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ladies`
+-- 转存表中的数据 `ladies`
 --
 
 INSERT INTO `ladies` (`id`, `name`, `package_type`, `package_details`, `experience`, `age`, `photo_url`, `specialty`, `bio`, `contact_info`, `password`) VALUES
@@ -75,71 +53,25 @@ INSERT INTO `ladies` (`id`, `name`, `package_type`, `package_details`, `experien
 (5, 'Tan Siew Ling', 'Premium', '12 days confinement, meals, 24/7 support, full care.', 8, 47, 'Tan Siew Ling.jpg', 'Postpartum', 'Caring and compassionate', '019-4638593', ''),
 (6, 'Lim Yee Leng', 'Premium', '14 days confinement, meals, postpartum support, housework.', 6, 50, 'Lim Yee Leng.jpg', 'Postpartum', 'Friendly and reliable', '016-4719473', '');
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('admin','staff','customer') NOT NULL DEFAULT 'customer'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
-(1, 'khor', 'ci230085@student.uthm.edu.my', '$2y$10$NlgN8S5VHBlROtjuSaPZRubXtnblygjZ0Q78yuYt2OFJX3f7.KQqy', 'staff');
-
---
--- Indexes for dumped tables
+-- 转储表的索引
 --
 
 --
--- Indexes for table `feedback`
---
-ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `ladies`
+-- 表的索引 `ladies`
 --
 ALTER TABLE `ladies`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT for dumped tables
+-- 在导出的表使用AUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `feedback`
---
-ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `ladies`
+-- 使用表AUTO_INCREMENT `ladies`
 --
 ALTER TABLE `ladies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
