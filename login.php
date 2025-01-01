@@ -1,50 +1,39 @@
 <?php
-// Establish database connection
 require_once 'config/db.php';
 
-// Start a new session or resume an existing session
 session_start();
 
-// Check if the form was submitted via POST method
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Sanitize and retrieve form inputs (username and password)
     $username = $conn->real_escape_string($_POST['username']);
     $password = trim($_POST['password']);
 
-    // SQL query to search for the user in the database based on username
     $sql = "SELECT * FROM users WHERE username='$username'";
     $result = $conn->query($sql);
 
-    // Check if any user is found with the provided username
     if ($result->num_rows > 0) {
 
         $user = $result->fetch_assoc();
 
-        // Verify if the provided password matches the stored hashed password
         if (password_verify($password, $user['password'])) {
-            // Store user information in session variables
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            // Redirect user based on their role
             if ($user['role'] === 'admin') {
-                header("Location: homepage.php"); // Redirect to homepage
+                header("Location: homepage.php");
             } elseif ($user['role'] === 'staff') {
-                header("Location: homepage.php"); // Redirect to homepage
+                header("Location: homepage.php");
             } else {
-                header("Location: homepage.php"); // Redirect to homepage
+                header("Location: homepage.php");
             }
             exit();
         } else {
-            // If password is incorrect, show an alert and redirect back to login page
             echo "<script>
             alert('Invalid password.');
             window.location.href = 'login.php';
             </script>";
         }
     } else {
-        // If no user is found with the provided username, show an alert and redirect back to login page
         echo "<script>
             alert('No user found with this username.');
             window.location.href = 'login.php';
@@ -157,32 +146,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 <div class="container">
-    <!-- Section for the image or background -->
     <div class="image-section"></div>
 
-    <!-- Form section for login -->
     <div class="form-section">
-        <!-- Logo section, with some top margin applied to the image -->
         <div class="logo">
             <img src="images/logo.png" style="margin-top: 50px;" alt="Logo">
         </div>
 
-        <!-- Heading for the login form -->
         <h1>Login Form</h1>
 
-        <!-- Login form starts here -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            <!-- Input field for the username -->
             <input type="text" id="username" name="username" placeholder="Username" required>
-
-            <!-- Input field for the password -->
             <input type="password" id="password" name="password" placeholder="Password" required>
-
-            <!-- Submit button to log the user in -->
             <button type="submit" class="btn">Login</button>
         </form>
 
-        <!-- Footer section with links for password recovery and account registration -->
         <div class="footer">
             <a href="password.php">Forgot Password?</a><br><br>
             Don't have an account? <a href="signup.php">Register</a>
