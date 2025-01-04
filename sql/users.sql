@@ -35,12 +35,9 @@ CREATE TABLE `users` (
   `role` enum('admin','customer') NOT NULL DEFAULT 'customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- 转存表中的数据 `users`
+
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
-(1, 'khor', 'ci230085@student.uthm.edu.my', '$2y$10$NlgN8S5VHBlROtjuSaPZRubXtnblygjZ0Q78yuYt2OFJX3f7.KQqy', 'staff');
 
 --
 -- 转储表的索引
