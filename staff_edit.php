@@ -1,9 +1,28 @@
 <?php
-// Database connection
-require_once('config/db.php');
-include('config/auth.php');
+// Start session
+session_start();
 
-$ladies_id = 1; 
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "webdev";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if the lady is logged in
+if (!isset($_SESSION['ladies_id'])) {
+    // If not logged in, redirect to login page
+    header("Location: login.php");
+    exit();
+}
+
+
+$ladies_id = $_SESSION['ladies_id'];
 // Fetch user's profile information
 $sql = "SELECT * FROM ladies WHERE id = $ladies_id";
 $result = $conn->query($sql);
@@ -19,7 +38,6 @@ if ($result->num_rows > 0) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     // Handle profile update
     $name = $_POST['name'];
-    $password = $_POST['password'];
     $package_type = $_POST['package_type'];
     $package_details = $_POST['package_details'];
     $experience = $_POST['experience'];
@@ -38,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         }
     }
 
-    $update_sql = "UPDATE ladies SET name = '$name', password = '$password', package_type = '$package_type', 
+    $update_sql = "UPDATE ladies SET name = '$name',  package_type = '$package_type', 
     package_details = '$package_details', 
     experience = '$experience', 
     age = '$age', 
@@ -186,6 +204,7 @@ $conn->close();
             <ul>
                 <li><a href="staff_profile.php">Profile</a></li>
                 <li><a href="?page=booking">Booking</a></li>
+                <li><a href="logout.php">Log Out</a></li>
             </ul>
         </div>
 
@@ -195,8 +214,7 @@ $conn->close();
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($ladies['name']); ?>" required>
 
-                <label for="password">Password:</label>
-                <input type="text" id="password" name="password" value="<?php echo htmlspecialchars($ladies['password']); ?>" required>
+               
 
                 <label for="package_type">Package Type:</label>
                 <select id="package_type" name="package_type" required>
@@ -216,7 +234,7 @@ $conn->close();
                 <label for="photo_url">Upload Photo:</label>
                 <input type="file" id="photo_url" name="photo_url" accept="image/*">
                 <!-- Display existing photo if present -->
-                <img src="images/<?php echo htmlspecialchars($ladies['photo_url']); ?>" alt="Current Photo" width="100"><br><br>
+                <img src="image/<?php echo htmlspecialchars($ladies['photo_url']); ?>" alt="Current Photo" width="100"><br><br>
 
                 <label for="specialty">Specialty:</label>
                 <textarea id="specialty" name="specialty" rows="4" required><?php echo htmlspecialchars($ladies['specialty']); ?></textarea>
