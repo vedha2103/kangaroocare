@@ -8,37 +8,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $conn->real_escape_string($_POST['username']);
     $password = trim($_POST['password']);
 
-    $sql = "SELECT * FROM users WHERE username='$username'";
-    $result = $conn->query($sql);
+    // Step 1: Check in the 'users' table for admin and customer roles
+    $sql_users = "SELECT * FROM users WHERE username='$username'";
+    $result_users = $conn->query($sql_users);
 
-    if ($result->num_rows > 0) {
+    // Check if the username exists in the users table
+    if ($result_users->num_rows > 0) {
+        $user = $result_users->fetch_assoc();
 
-        $user = $result->fetch_assoc();
-
+        // Step 2: Verify password for users (admin, customer)
         if (password_verify($password, $user['password'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
+            // Redirect based on user role
             if ($user['role'] === 'admin') {
                 header("Location: homepage.php");
-            } elseif ($user['role'] === 'staff') {
-                header("Location: homepage.php");
+            } elseif ($user['role'] === 'customer') {
+                header("Location: customer_home.php");
             } else {
                 header("Location: homepage.php");
             }
             exit();
         } else {
             echo "<script>
-            alert('Invalid password.');
-            window.location.href = 'login.php';
-            </script>";
+                alert('Invalid password for admin/customer.');
+                window.location.href = 'login.php';
+                </script>";
+        }
+    }
+   // Step 3: Check in the 'ladies' table for staff (ladies)
+else {
+    // SQL query to select the lady based on the username (name)
+    $sql_ladies = "SELECT * FROM ladies WHERE name='$username'";
+    $result_ladies = $conn->query($sql_ladies);
+
+    // Check if the username exists in the ladies table
+    if ($result_ladies->num_rows > 0) {
+        $lady = $result_ladies->fetch_assoc();
+
+        // Step 4: Verify password for ladies
+        if (password_verify($password, $lady['password'])) {
+            // Start session and set session variables for the logged-in lady
+            $_SESSION['name'] = $lady['name'];
+            $_SESSION['role'] = 'ladies';  // Set role as 'ladies'
+            $_SESSION['ladies_id'] = $lady['id'];
+            $_SESSION['ladies_name'] = $lady['name'];
+            $_SESSION['ladies_photo_url'] = $lady['photo_url'];
+            $_SESSION['ladies_package_type'] = $lady['package_type'];
+            $_SESSION['ladies_package_details'] = $lady['package_details'];
+            $_SESSION['ladies_experience'] = $lady['experience'];
+            $_SESSION['ladies_age'] = $lady['age'];
+            $_SESSION['ladies_specialty'] = $lady['specialty'];
+            $_SESSION['ladies_bio'] = $lady['bio'];
+            $_SESSION['ladies_contact_info'] = $lady['contact_info'];
+
+            // Redirect to staff profile page
+            header("Location: staff_profile.php");
+            exit();
+        } else {
+            // Incorrect password
+            echo "<script>
+                alert('Invalid password for lady.');
+                window.location.href = 'login.php';
+                </script>";
         }
     } else {
+        // Username not found
         echo "<script>
             alert('No user found with this username.');
             window.location.href = 'login.php';
             </script>";
     }
+}
 }
 ?>
 
