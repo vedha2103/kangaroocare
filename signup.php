@@ -150,7 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
             <select id="role" name="role">
                 <option value="admin" <?php echo ($role === "admin") ? "selected" : ""; ?>>Admin</option>
-                <option value="staff" <?php echo ($role === "staff") ? "selected" : ""; ?>>Staff</option>
                 <option value="customer" <?php echo ($role === "customer") ? "selected" : ""; ?>>Customer</option>
             </select>
             <button type="submit" class="btn">Register</button>
