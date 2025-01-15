@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #89CFF0, #1E1E6D);
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            background-color: #1E1E6D;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .step img {
+            max-width: 60px;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .step p.title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .booking-form {
+            padding: 20px;
+        }
+
+        .booking-form h2 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus {
+            border-color: #1E1E6D;
+            outline: none;
+        }
+
+        .form-group button {
+            background: #1E1E6D;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>How To Book The Confinement Lady?</h1>
+        <p>Easy. Just follow below steps.</p>
+    </div>
+
+    <div class="steps">
+        <div class="step">
+            <img src="booking_page/check.png" alt="Check Icon">
+            <p class="title">CHECK</p>
+            <p>The price first.</p>
+        </div>
+        <div class="step">
+            <img src="booking_page/choose.png"alt="Choose Icon">
+            <p class="title">CHOOSE</p>
+            <p>Your desired package.</p>
+        </div>
+        <div class="step">
+            <img src="booking_page/enter.png" alt="Enter Icon">
+            <p class="title">ENTER</p>
+            <p>Your personal details.</p>
+        </div>
+        <div class="step">
+            <img src="booking_page/add.png" alt="Add Icon">
+            <p class="title">ADD</p>
+            <p>Any add-on services.</p>
+        </div>
+        <div class="step">
+            <img src="booking_page/done.png"alt="Done Icon">
+            <p class="title">DONE</p>
+            <p>Let go all the worries!</p>
+        </div>
+    </div>
+
+    <div class="booking-form">
+        <h2>Booking Form</h2>
+        <p>I'm interested, but want to know more about your offerings</p>
+
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="full-name">Full Name <span style="color: red;">*</span></label>
+                <input type="text" id="full-name" name="full-name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="edd">EDD <span style="color: red;">*</span> (Expected Date of Delivery)</label>
+                <input type="date" id="edd" name="edd" required>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" placeholder="How old are you?">
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
