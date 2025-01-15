@@ -3,7 +3,7 @@
 $servername = "localhost"; // change this if your DB server is different
 $username = "root";        // change this if your DB user is different
 $password = "";            // change this if your DB password is different
-$dbname = "booking_system";
+$dbname = "kangaroocare";
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -167,27 +167,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="steps">
         <div class="step">
-            <img src="booking_page/check.png" alt="Check Icon">
+            <img src="kangaroocare/check.png" alt="Check Icon">
             <p class="title">CHECK</p>
             <p>The price first.</p>
         </div>
         <div class="step">
-            <img src="booking_page/choose.png" alt="Choose Icon">
+            <img src="kangaroocare/choose.png" alt="Choose Icon">
             <p class="title">CHOOSE</p>
             <p>Your desired package.</p>
         </div>
         <div class="step">
-            <img src="booking_page/enter.png" alt="Enter Icon">
+            <img src="kangaroocare/enter.png" alt="Enter Icon">
             <p class="title">ENTER</p>
             <p>Your personal details.</p>
         </div>
         <div class="step">
-            <img src="booking_page/add.png" alt="Add Icon">
+            <img src="kangaroocare/add.png" alt="Add Icon">
             <p class="title">ADD</p>
             <p>Any add-on services.</p>
         </div>
         <div class="step">
-            <img src="booking_page/done.png" alt="Done Icon">
+            <img src="kangaroocare/done.png" alt="Done Icon">
             <p class="title">DONE</p>
             <p>Let go all the worries!</p>
         </div>
@@ -257,6 +257,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="" disabled selected>Select delivery type</option>
                     <option value="normal">Normal</option>
                     <option value="c-section">C-section</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Duration <span style="color: red;">*</span></label>
+                <select id="duration" name="duration" required>
+                    <option value="" disabled selected>Select duration</option>
+                    <option value="7">7 Days</option>
+                    <option value="14">14 Days</option>
+                    <option value="21">21 Days</option>
+                    <option value="28">28 Days</option>
                 </select>
             </div>
 
