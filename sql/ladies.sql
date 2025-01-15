@@ -55,7 +55,17 @@ INSERT INTO `ladies` (`id`, `name`, `package_type`, `package_details`, `experien
 
 --
 -- 转储表的索引
---
+ALTER TABLE `ladies`
+ADD COLUMN `price` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `contact_info`;
+
+UPDATE `ladies`
+SET `price` = 500.00
+WHERE `id` IN (1, 2, 3);
+
+UPDATE `ladies`
+SET `price` = 800.00
+WHERE `id` IN (4, 5, 6);
+
 
 --
 -- 表的索引 `ladies`
