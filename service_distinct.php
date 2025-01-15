@@ -175,6 +175,7 @@ header h1 {
                             <p><strong>Experience:</strong> <?php echo $lady['experience']; ?> years</p>
                             <p><strong>Package:</strong> <?php echo $lady['package_type']; ?></p>
                             <p><strong>Details:</strong> <?php echo $lady['package_details']; ?></p>
+                            <p><strong>Price:</strong> RM <?php echo $lady['price']; ?></p>
                             <button onclick="window.location.href='view_profile.php?id=<?php echo $lady['id']; ?>'">View Profile</button>
                         </div>
                     </div>
@@ -193,6 +194,7 @@ header h1 {
                             <p><strong>Experience:</strong> <?php echo $lady['experience']; ?> years</p>
                             <p><strong>Package:</strong> <?php echo $lady['package_type']; ?></p>
                             <p><strong>Details:</strong> <?php echo $lady['package_details']; ?></p>
+                            <p><strong>Price:</strong> RM <?php echo $lady['price']; ?></p>
                             <button onclick="window.location.href='view_profile.php?id=<?php echo $lady['id']; ?>'">View Profile</button>
                         </div>
                     </div>
