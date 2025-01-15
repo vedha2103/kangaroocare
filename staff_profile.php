@@ -1,10 +1,29 @@
 <?php
-// Database connection
-require_once 'config/db.php';
-require_once 'config/auth.php'; 
+session_start(); // Start the session to access session variables
 
-$ladies_id = 1; 
-// Fetch user's profile information
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "kangaroocare";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if the user is logged in by verifying the session variable for 'ladies_id'
+if (!isset($_SESSION['ladies_id'])) {
+    // If not logged in, redirect to the login page
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch the logged-in lady's ID from the session
+$ladies_id = $_SESSION['ladies_id'];
+
+// Fetch user's profile information from the database
 $sql = "SELECT * FROM ladies WHERE id = $ladies_id";
 $result = $conn->query($sql);
 
@@ -18,6 +37,7 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,6 +150,7 @@ $conn->close();
             <ul>
             <li><a href="staff_profile.php">Profile</a></li>
             <li><a href="?page=booking">Booking</a></li>
+            <li><a href="logout.php">Log Out</a></li>
             </ul>
         </div>
 
@@ -138,9 +159,6 @@ $conn->close();
             <div class="profile-grid">
             <label for="name">Name:</label>
             <p><?php echo htmlspecialchars($ladies['name']); ?></p>
-
-            <label for="password">Password:</label>
-                <p><?php echo htmlspecialchars($ladies['password']); ?></p>
 
                 <label for="package_type">Package Type:</label>
                 <p><?php echo htmlspecialchars($ladies['package_type']); ?></p>
@@ -163,8 +181,11 @@ $conn->close();
                 <label for="contact_info">Contact Info:</label>
                 <p><?php echo htmlspecialchars($ladies['contact_info']); ?></p>
 
+                <label for="price">Price:</label>
+                <p>RM<?php echo htmlspecialchars($ladies['price']); ?></p>
+
                 <label for="photo">Profile Photo:</label>
-                <p><img src="images/<?php echo htmlspecialchars($ladies['photo_url']); ?>" alt="Profile Photo" width="100"></p>
+                <p><img src="image/<?php echo htmlspecialchars($ladies['photo_url']); ?>" alt="Profile Photo" width="100"></p>
             </div>
 
             <!-- Edit Profile Button -->
@@ -175,3 +196,4 @@ $conn->close();
     </div>
 </body>
 </html>
+

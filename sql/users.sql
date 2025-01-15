@@ -32,15 +32,17 @@ CREATE TABLE `users` (
   `username` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('admin','staff','customer') NOT NULL DEFAULT 'customer'
+  `role` enum('admin','customer') NOT NULL DEFAULT 'customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+<<<<<<< HEAD
 --
 -- Dumping data for table `users`
+=======
+
+>>>>>>> 80775b46532d1e1f846dbbc6c189d5c9ddb97e87
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
-(1, 'khor', 'ci230085@student.uthm.edu.my', '$2y$10$NlgN8S5VHBlROtjuSaPZRubXtnblygjZ0Q78yuYt2OFJX3f7.KQqy', 'staff');
 
 --
 -- Indexes for dumped tables
