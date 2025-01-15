@@ -28,30 +28,79 @@ $result_premium = $conn->query($sql_premium);
 
 /* Body styling */
 body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    background: linear-gradient(to right, #000428, #004e92);
-    color: #333;
-    line-height: 1.6;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #0a0f44, #5a9bd6);
+            color: #333;
 }
 
 /* Header styling */
 header {
-    background: linear-gradient(to right, #000428, #004e92); /* Matching the existing gradient background */
-    color: #fff; /* Light text to stand out on the dark background */
-    text-align: center;
-    padding: 2rem 0; /* Increased padding for more space */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for a sense of depth */
-    border-radius: 15px; /* Rounded corners for a smoother feel */
-    font-family: Georgia, 'Times New Roman', Times, serif /* Clean, modern font */
+    background-color: #00274d;
+            color: white;
+            padding: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
 }
 
-header h1 {
-    font-size: 3rem; /* Larger size for emphasis */
-    font-weight: bold;
-    color: #fff; /* White text to contrast with the dark background */
-    letter-spacing: 1.5px;
-    text-transform: uppercase; /* Uppercase for a modern, impactful look */
-}
+header img {
+            width: 150px;
+            margin-right: 15px;
+        }
+
+        header .header-title {
+            display: flex;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #f4a261;
+        }
+
+        footer {
+            background-color: #00274d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        footer .social-links {
+            margin-top: 10px;
+        }
+
+        footer .social-links a {
+            color: #f4a261;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        footer .social-links a:hover {
+            text-decoration: underline;
+        }
+
 
 /* Main container */
 .container {
@@ -160,7 +209,17 @@ header h1 {
 </head>
 <body>
     <header>
-        <h1>Meet Our Confinement Ladies</h1>
+    <div class="header-title">
+        <img src="images/kangaroo-logo.png" alt="Logo">
+        <h1>KangarooCare Confinement Centre</h1>
+    </div>
+    <nav class="nav-links">
+        <a href="booking.php">Booking</a>
+        <a href="guide.php">Guide</a>
+        <a href="service_distinct.php">Services</a>
+        <a href="feedback.php">Feedback</a>
+    </nav>
+
     </header>
 
     <main class="container">
@@ -169,13 +228,13 @@ header h1 {
             <div class="ladies-list">
                 <?php while ($lady = $result_basic->fetch_assoc()) { ?>
                     <div class="lady-card">
-                        <img src="images/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
+                        <img src="image/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
                         <div class="lady-info">
                             <h3><?php echo $lady['name']; ?></h3>
                             <p><strong>Experience:</strong> <?php echo $lady['experience']; ?> years</p>
                             <p><strong>Package:</strong> <?php echo $lady['package_type']; ?></p>
                             <p><strong>Details:</strong> <?php echo $lady['package_details']; ?></p>
-                            <p><strong>Price:</strong> RM <?php echo $lady['price']; ?></p>
+                            <p><strong>Price:</strong>  RM <?php echo $lady['price']; ?></p>
                             <button onclick="window.location.href='view_profile.php?id=<?php echo $lady['id']; ?>'">View Profile</button>
                         </div>
                     </div>
@@ -188,7 +247,7 @@ header h1 {
             <div class="ladies-list">
                 <?php while ($lady = $result_premium->fetch_assoc()) { ?>
                     <div class="lady-card">
-                        <img src="images/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
+                        <img src="image/<?php echo $lady['photo_url']; ?>" alt="Photo of <?php echo $lady['name']; ?>" class="lady-photo">
                         <div class="lady-info">
                             <h3><?php echo $lady['name']; ?></h3>
                             <p><strong>Experience:</strong> <?php echo $lady['experience']; ?> years</p>
@@ -202,6 +261,13 @@ header h1 {
             </div>
         </section>
     </main>
+    <footer>
+    &copy; 2025 KangarooCare | <a href="#" style="color: #f4a261;">Privacy Policy</a>
+    <div class="social-links">
+        <a href="https://facebook.com">Facebook</a>
+        <a href="https://instagram.com">Instagram</a>
+    </div>
+</footer>
 </body>
 </html>
 
