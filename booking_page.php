@@ -1,17 +1,7 @@
 <?php
-// Database connection settings
-$servername = "localhost"; // change this if your DB server is different
-$username = "root";        // change this if your DB user is different
-$password = "";            // change this if your DB password is different
-$dbname = "booking_system";
-
-// Create a connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Database connection
+require_once 'config/db.php';
+require_once 'config/auth.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
