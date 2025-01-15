@@ -5,7 +5,7 @@ session_start(); // Start the session to access session variables
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "webdev";
+$dbname = "kangaroocare";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -180,6 +180,9 @@ $conn->close();
 
                 <label for="contact_info">Contact Info:</label>
                 <p><?php echo htmlspecialchars($ladies['contact_info']); ?></p>
+
+                <label for="price">Price:</label>
+                <p>RM<?php echo htmlspecialchars($ladies['price']); ?></p>
 
                 <label for="photo">Profile Photo:</label>
                 <p><img src="image/<?php echo htmlspecialchars($ladies['photo_url']); ?>" alt="Profile Photo" width="100"></p>
