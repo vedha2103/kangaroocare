@@ -6,7 +6,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "webdev";
+$dbname = "kangaroocare";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $specialty = $_POST['specialty'];
     $bio = $_POST['bio'];
     $contact_info = $_POST['contact_info'];
+    $price = $_POST['price'];
     $photo_url = $ladies['photo_url']; // Default to current photo
 
     if (isset($_FILES['photo_url']) && $_FILES['photo_url']['error'] == 0) {
@@ -64,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     specialty = '$specialty', 
     bio = '$bio', 
     contact_info = '$contact_info' 
+    price = '$price' 
     WHERE id = $ladies_id";
 
     if ($conn->query($update_sql) === TRUE) {
@@ -244,6 +246,9 @@ $conn->close();
 
                 <label for="contact_info">Contact Info:</label>
                 <textarea id="contact_info" name="contact_info" rows="4" required><?php echo htmlspecialchars($ladies['contact_info']); ?></textarea>
+
+                <label for="price">Price:</label>
+                <textarea id="price" name="price" rows="4" required><?php echo htmlspecialchars($ladies['price']); ?></textarea>
 
                 <button type="submit" name="update">Save Changes</button>
                 <a href="staff_profile.php"><button type="button" class="cancel-button">Cancel</button></a>
