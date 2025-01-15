@@ -49,10 +49,10 @@ CREATE TABLE `ladies` (
 INSERT INTO `ladies` (`id`, `name`, `package_type`, `package_details`, `experience`, `price`, `age`, `photo_url`, `specialty`, `bio`, `contact_info`, `password`) VALUES
 (1, 'Ooi Chew Hong', 'Basic', '5 days confinement, meals, postpartum care.', 7, 500.00, 43, 'Ooi Chew Hong.jpeg', 'Lactation', 'Caring and professional', '012-55112354', '$2y$10$BNh0oeRp7MClxVjsI0JxDuB3XTzTgYkbXS6g/LcLLogbKcQ2vwZ.2'),
 (2, 'Lim San Yok', 'Basic', '6 days confinement, meals, light housework assistance.', 6, 500.00, 49, 'Lim San Yok.jpg', 'Postpartum', 'Loving and attentive', '013-2340671', '$2y$10$HP6XFj0vwlJxVjEjd3qPhej8GU29chlUfNZImPCiDIiAGeICpOVS6'),
-(3, 'See Phaik Lan', 'Basic', '7 days confinement, meals, daily checkups, light chores.', 4, 53, 500.00, 'See Phaik Lan.jpg', 'Postpartum', 'Friendly and supportive', '017-1239876', ''),
-(4, 'Ang Siew Chan', 'Premium', '10 days confinement, meals, lactation support, full care.', 7, 50, 800.00, 'Ang Siew Chan.jpg', 'Lactation', 'Loving and experienced', '011-8894635', ''),
-(5, 'Tan Siew Ling', 'Premium', '12 days confinement, meals, 24/7 support, full care.', 8, 47, 800.00, 'Tan Siew Ling.jpg', 'Postpartum', 'Caring and compassionate', '019-4638593', ''),
-(6, 'Lim Yee Leng', 'Premium', '14 days confinement, meals, postpartum support, housework.', 6, 50, 800.00, 'Lim Yee Leng.jpg', 'Postpartum', 'Friendly and reliable', '016-4719473', '');
+(3, 'See Phaik Lan', 'Basic', '7 days confinement, meals, daily checkups, light chores.', 4, 500.00, 53, 'See Phaik Lan.jpg', 'Postpartum', 'Friendly and supportive', '017-1239876', ''),
+(4, 'Ang Siew Chan', 'Premium', '10 days confinement, meals, lactation support, full care.', 7, 800.00, 50, 'Ang Siew Chan.jpg', 'Lactation', 'Loving and experienced', '011-8894635', ''),
+(5, 'Tan Siew Ling', 'Premium', '12 days confinement, meals, 24/7 support, full care.', 8, 800.00, 47, 'Tan Siew Ling.jpg', 'Postpartum', 'Caring and compassionate', '019-4638593', ''),
+(6, 'Lim Yee Leng', 'Premium', '14 days confinement, meals, postpartum support, housework.', 6, 800.00, 50, 'Lim Yee Leng.jpg', 'Postpartum', 'Friendly and reliable', '016-4719473', '');
 
 --
 -- 转储表的索引
