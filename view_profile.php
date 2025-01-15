@@ -139,6 +139,7 @@ header h1 {
         <p><strong>Package Details:</strong> <?php echo $lady['package_details']; ?></p>
         <p><strong>Bio:</strong> <?php echo $lady['bio']; ?></p>
         <p><strong>Contact Info:</strong> <?php echo $lady['contact_info']; ?></p>
+        <p><strong>Price:</strong> RM<?php echo $lady['price']; ?></p>
         <a href="booking.php?id=<?php echo $lady['id']; ?>">Book Now</a>
     </section>
 
