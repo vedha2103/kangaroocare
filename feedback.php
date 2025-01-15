@@ -36,19 +36,7 @@ $result = $conn->query($sql);
             min-height: auto;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to right, #000428, #004e92);
-        }
-
-        header {
-            background-color: #ccc;
-            padding: 20px;
-            text-align: center;
-        }
-
-        nav {
-            background-color: #e0e0e0;
-            padding: 10px;
-            text-align: center;
+            background: linear-gradient(to bottom, #0a0f44, #5a9bd6);
         }
 
         .container{
@@ -152,16 +140,85 @@ $result = $conn->query($sql);
             text-align: right;
         }
 
+        header {
+            background-color: #00274d;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header img {
+            width: 150px;
+            margin-right: 15px;
+        }
+
+        header .header-title {
+            display: flex;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #f4a261;
+        }
+
         footer {
-            background-color: #ccc;
+            background-color: #00274d;
+            color: white;
             padding: 20px;
             text-align: center;
+            font-size: 14px;
+        }
+
+        footer .social-links {
+            margin-top: 10px;
+        }
+
+        footer .social-links a {
+            color: #f4a261;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        footer .social-links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <header>Header</header>
-    <nav>Navigation Bar</nav>
+    <header>
+        <div class="header-title">
+            <img src="images/kangaroo-logo.png" alt="Logo">
+            <h1>KangarooCare Confinement Centre</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="booking.php">Booking</a>
+            <a href="guide.php">Guide</a>
+            <a href="service_distinct.php">Services</a>
+            <a href="feedback.php">Feedback</a>
+        </nav>
+    </header>
 
     <div class="container">
         <div class="feedback-section">
@@ -192,7 +249,13 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <footer>Footer</footer>
+    <footer>
+        &copy; 2025 KangarooCare | <a href="#" style="color: #f4a261;">Privacy Policy</a>
+        <div class="social-links">
+            <a href="https://facebook.com">Facebook</a>
+            <a href="https://instagram.com">Instagram</a>
+        </div>
+    </footer>
     
 </body>
 </html>
