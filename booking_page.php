@@ -1,7 +1,17 @@
 <?php
-// Database connection
-require_once 'config/db.php';
-require_once 'config/auth.php'; 
+// Database connection settings
+$servername = "localhost"; // change this if your DB server is different
+$username = "root";        // change this if your DB user is different
+$password = "";            // change this if your DB password is different
+$dbname = "booking_system";
+
+// Create a connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
@@ -15,12 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $duration = $_POST['duration'];
     $package = $_POST['package'];
 
-    // Prepare SQL query
-    $sql = "INSERT INTO bookings (full_name, edd, age, phone, location, hospital, delivery_type, duration, package)
-            VALUES ('$full_name', '$edd', '$age', '$phone', '$location', '$hospital', '$delivery_type', '$duration', '$package')";
+    // Prepare SQL query with the approval_status column set to 'pending'
+    $sql = "INSERT INTO bookings (full_name, edd, age, phone, location, hospital, delivery_type, duration, package, approval_status)
+            VALUES ('$full_name', '$edd', '$age', '$phone', '$location', '$hospital', '$delivery_type', '$duration', '$package', 'pending')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Booking submitted successfully!";
+        echo "Booking submitted successfully! Your approval status is currently 'Pending'.";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
@@ -30,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<?php include('header.php'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Page</title>
     <style>
+        /* Styles for the page */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -185,12 +198,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p>I'm interested, but want to know more about your offerings</p>
 
         <form action="" method="post">
+            <!-- Booking form inputs -->
             <div class="form-group">
                 <label for="full-name">Full Name <span style="color: red;">*</span></label>
                 <input type="text" id="full-name" name="full-name" placeholder="Enter your name" required>
             </div>
 
-            <div class="form-group">
+   <div class="form-group">
                 <label for="edd">EDD <span style="color: red;">*</span> (Expected Date of Delivery)</label>
                 <input type="date" id="edd" name="edd" required>
             </div>
@@ -247,17 +261,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
-                <label for="duration">Duration <span style="color: red;">*</span></label>
-                <select id="duration" name="duration" required>
-                    <option value="" disabled selected>Select duration</option>
-                    <option value="7">7 Days</option>
-                    <option value="14">14 Days</option>
-                    <option value="21">21 Days</option>
-                    <option value="28">28 Days</option>
-                </select>
-            </div>
-
-            <div class="form-group">
                 <label for="package">Select a Package <span style="color: red;">*</span></label>
                 <select id="package" name="package" required>
                     <option value="" disabled selected>Select your package</option>
@@ -266,6 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
             </div>
 
+
             <div class="form-group">
                 <button type="submit">Submit</button>
             </div>
@@ -273,5 +277,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-</body>
-</html>
+<?php include('footer.php'); ?>
+    
